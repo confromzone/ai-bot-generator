@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI Bot Generator Platform</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <header>
+        <h1>Welcome to the AI Bot Generator Platform</h1>
+        <p>Create your customized AI bot easily and instantly!</p>
+    </header>
+    <main>
+        <form id="bot-form">
+            <label for="bot-name">Bot Name:</label>
+            <input type="text" id="bot-name" name="bot-name" placeholder="Enter your bot's name" required>
+
+            <label for="bot-category">Choose Category:</label>
+            <select id="bot-category" name="bot-category" required>
+                <option value="">Select a category</option>
+                <option value="chatbot">Chatbot</option>
+                <option value="social">Social Media Bot</option>
+                <option value="trading">Trading Bot</option>
+                <option value="analysis">Data Analysis Bot</option>
+                <option value="automation">Automation Bot</option>
+            </select>
+
+            <label for="bot-description">Description & Features:</label>
+            <textarea id="bot-description" name="bot-description" rows="5" placeholder="Describe what you want your bot to do" required></textarea>
+
+            <button type="submit">Generate Bot</button>
+        </form>
+        <div id="response" class="response hidden">
+            <!-- Response or generated bot details will appear here -->
+        </div>
+    </main>
+    <footer>
+        <p>&copy; 2025 AI Bot Generator Platform. All rights reserved.</p>
+    </footer>
+    <script src="script.js"></script>
+</body>
+</html>
