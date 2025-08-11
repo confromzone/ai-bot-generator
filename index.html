@@ -17,9 +17,18 @@
             <li><a href="#" id="nav-home">Home</a></li>
             <li><a href="#" id="nav-mybots" class="hidden">My Bots</a></li>
             <li><a href="#" id="nav-support">Support</a></li>
+            <li><a href="#" id="nav-pricing">Pricing</a></li>
             <li><a href="#" id="nav-login">Login</a></li>
             <li><a href="#" id="nav-signup">Sign Up</a></li>
             <li><a href="#" id="nav-logout" class="hidden">Logout</a></li>
+            <!-- Language selector -->
+            <li id="nav-language">
+                <select id="language-select">
+                    <option value="en">English</option>
+                    <option value="lt">Lietuvių</option>
+                    <option value="es">Español</option>
+                </select>
+            </li>
         </ul>
     </nav>
     <main>
@@ -82,6 +91,27 @@
                 <button type="submit">Send Message</button>
             </form>
             <div id="support-response" class="response hidden"></div>
+        </section>
+        <!-- Pricing section -->
+        <section id="pricing-section" class="hidden">
+            <h2>Subscription Plans</h2>
+            <div class="pricing-plans">
+                <div class="plan-card">
+                    <h3 id="basic-title">Basic Plan</h3>
+                    <p id="basic-desc">Up to 5 bots. Suitable for individuals.</p>
+                    <p id="basic-price" class="price">€10/month</p>
+                </div>
+                <div class="plan-card">
+                    <h3 id="pro-title">Pro Plan</h3>
+                    <p id="pro-desc">Up to 15 bots. Advanced features for growing teams.</p>
+                    <p id="pro-price" class="price">€25/month</p>
+                </div>
+                <div class="plan-card">
+                    <h3 id="enterprise-title">Enterprise Plan</h3>
+                    <p id="enterprise-desc">Unlimited bots. Custom solutions for enterprises.</p>
+                    <p id="enterprise-price" class="price">Contact us</p>
+                </div>
+            </div>
         </section>
     </main>
     <footer>
