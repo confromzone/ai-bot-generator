@@ -11,29 +11,78 @@
         <h1>Welcome to the AI Bot Generator Platform</h1>
         <p>Create your customized AI bot easily and instantly!</p>
     </header>
+    <!-- Navigation bar -->
+    <nav id="navbar">
+        <ul>
+            <li><a href="#" id="nav-home">Home</a></li>
+            <li><a href="#" id="nav-mybots" class="hidden">My Bots</a></li>
+            <li><a href="#" id="nav-support">Support</a></li>
+            <li><a href="#" id="nav-login">Login</a></li>
+            <li><a href="#" id="nav-signup">Sign Up</a></li>
+            <li><a href="#" id="nav-logout" class="hidden">Logout</a></li>
+        </ul>
+    </nav>
     <main>
-        <form id="bot-form">
-            <label for="bot-name">Bot Name:</label>
-            <input type="text" id="bot-name" name="bot-name" placeholder="Enter your bot's name" required>
-
-            <label for="bot-category">Choose Category:</label>
-            <select id="bot-category" name="bot-category" required>
-                <option value="">Select a category</option>
-                <option value="chatbot">Chatbot</option>
-                <option value="social">Social Media Bot</option>
-                <option value="trading">Trading Bot</option>
-                <option value="analysis">Data Analysis Bot</option>
-                <option value="automation">Automation Bot</option>
-            </select>
-
-            <label for="bot-description">Description & Features:</label>
-            <textarea id="bot-description" name="bot-description" rows="5" placeholder="Describe what you want your bot to do" required></textarea>
-
-            <button type="submit">Generate Bot</button>
-        </form>
-        <div id="response" class="response hidden">
-            <!-- Response or generated bot details will appear here -->
-        </div>
+        <!-- Bot generator form (visible after login) -->
+        <section id="generator-section" class="hidden">
+            <form id="bot-form">
+                <label for="bot-name">Bot Name:</label>
+                <input type="text" id="bot-name" name="bot-name" placeholder="Enter your bot's name" required>
+                <label for="bot-category">Choose Category:</label>
+                <select id="bot-category" name="bot-category" required>
+                    <option value="">Select a category</option>
+                    <option value="chatbot">Chatbot</option>
+                    <option value="social">Social Media Bot</option>
+                    <option value="trading">Trading Bot</option>
+                    <option value="analysis">Data Analysis Bot</option>
+                    <option value="automation">Automation Bot</option>
+                </select>
+                <label for="bot-description">Description &amp; Features:</label>
+                <textarea id="bot-description" name="bot-description" rows="5" placeholder="Describe what you want your bot to do" required></textarea>
+                <button type="submit">Generate Bot</button>
+            </form>
+            <div id="response" class="response hidden"></div>
+        </section>
+        <!-- Sign-up section -->
+        <section id="signup-section" class="hidden">
+            <h2>Create Account</h2>
+            <form id="signup-form">
+                <label for="signup-email">Email:</label>
+                <input type="email" id="signup-email" required>
+                <label for="signup-password">Password:</label>
+                <input type="password" id="signup-password" required>
+                <button type="submit">Sign Up</button>
+            </form>
+            <p id="signup-message"></p>
+        </section>
+        <!-- Login section -->
+        <section id="login-section" class="hidden">
+            <h2>Login</h2>
+            <form id="login-form">
+                <label for="login-email">Email:</label>
+                <input type="email" id="login-email" required>
+                <label for="login-password">Password:</label>
+                <input type="password" id="login-password" required>
+                <button type="submit">Login</button>
+            </form>
+            <p id="login-message"></p>
+        </section>
+        <!-- My bots section -->
+        <section id="mybots-section" class="hidden">
+            <h2>My Bots</h2>
+            <ul id="bot-list"></ul>
+        </section>
+        <!-- Support section -->
+        <section id="support-section" class="hidden">
+            <h2>Custom Support</h2>
+            <p>If you need help, contact our support robot using the form below or send an email to <a href="mailto:emmari609@gmail.com">emmari609@gmail.com</a>.</p>
+            <form id="support-form">
+                <label for="support-message">Your Message:</label>
+                <textarea id="support-message" rows="3" required></textarea>
+                <button type="submit">Send Message</button>
+            </form>
+            <div id="support-response" class="response hidden"></div>
+        </section>
     </main>
     <footer>
         <p>&copy; 2025 AI Bot Generator Platform. All rights reserved.</p>

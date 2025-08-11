@@ -89,3 +89,40 @@ footer {
   color: #666;
   font-size: 0.9em;
 }
+
+/* Navigation bar */
+nav {
+  background: #fff;
+  padding: 10px 20px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+nav ul {
+  list-style: none;
+  display: flex;
+  gap: 15px;
+  margin: 0;
+  padding: 0;
+}
+
+nav ul li a {
+  text-decoration: none;
+  color: #2575fc;
+  font-weight: 600;
+}
+
+nav ul li a:hover {
+  text-decoration: underline;
+}
+
+/* Bots list */
+#bot-list {
+  list-style: none;
+  padding: 0;
+}
+
+#bot-list li {
+  margin-bottom: 12px;
+  padding-bottom: 12px;
+  border-bottom: 1px solid #eee;
+}
