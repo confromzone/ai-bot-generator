@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="lt">
+<head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<title>AI Asistento Demo - Nova Concierge</title>
+
+<link rel="icon" href="/static/favicon.svg?v=4" type="image/svg+xml">
+<link rel="mask-icon" href="/static/favicon.svg?v=4" color="#4f46e5">
+<link rel="apple-touch-icon" href="/static/favicon.png?v=4">
+<meta name="theme-color" content="#0b1220">
+
+<style>
+:root{--bg:#0b1220;--card:#0f172a;--border:#1e293b;--text:#e5eef7;--muted:#9aa4b2;--brand:#6b5cff;--brand2:#22d3ee}
+*{box-sizing:border-box}html,body{margin:0}
+body{font-family:Inter,system-ui,Segoe UI,Arial;background:var(--bg);color:var(--text)}
+a{color:inherit;text-decoration:none}img{max-width:100%;display:block}
+header{position:sticky;top:0;z-index:40;background:rgba(11,18,32,.85);backdrop-filter:saturate(180%) blur(8px);border-bottom:1px solid var(--border)}
+.wrap{max-width:1100px;margin:0 auto;padding:10px 20px;display:flex;align-items:center;gap:12px;justify-content:space-between}
+a.brand{display:flex;align-items:center;gap:10px;color:inherit;text-decoration:none}
+a.brand:hover{opacity:.9}
+.brand img{width:28px;height:28px;border-radius:7px}
+.btn{padding:10px 14px;border-radius:10px;border:1px solid var(--border);background:#101828;color:#e5eef7}
+.burger{width:40px;height:36px;border:1px solid var(--border);border-radius:10px;background:#0f172a;color:#cbd5e1;display:grid;place-items:center;cursor:pointer}
+.burger i,.burger i:before,.burger i:after{content:"";display:block;width:18px;height:2px;background:#cbd5e1;border-radius:2px;position:relative;transition:.25s}
+.burger i:before{position:absolute;transform:translateY(-6px)} .burger i:after{position:absolute;transform:translateY(6px)}
+.burger.active i{background:transparent}.burger.active i:before{transform:rotate(45deg)}.burger.active i:after{transform:rotate(-45deg)}
+.drawer-backdrop{position:fixed;inset:0;background:rgba(0,0,0,.45);backdrop-filter:blur(2px);z-index:39;opacity:0;pointer-events:none;transition:.25s}
+.drawer{position:fixed;left:0;top:0;bottom:0;width:300px;background:#0f172a;border-right:1px solid var(--border);z-index:40;transform:translateX(-105%);transition:.25s;padding:18px}
+.drawer.open{transform:none}.drawer-backdrop.show{opacity:1;pointer-events:auto}
+.drawer .links{display:flex;flex-direction:column;gap:8px;margin-top:10px}
+.drawer a{padding:10px;border-radius:10px;color:#cbd5e1;border:1px solid transparent}
+.drawer a:hover{border-color:var(--border);background:#0b1220}
+.hero{max-width:1100px;margin:0 auto;padding:52px 20px;display:grid;grid-template-columns:1fr;gap:28px;align-items:center;text-align:center;}
+h1{margin:12px 0 10px;font-size:42px;line-height:1.1}.lead{color:#b8c3cf;font-size:18px}
+.custom{max-width:1100px;margin:0 auto;padding:42px 20px}
+.card{background:#0f172a;border:1px solid var(--border);border-radius:16px;padding:18px;}
+footer{border-top:1px solid var(--border);padding:22px 20px;color:#a7b2c1}
+.bgfx{pointer-events:none;position:fixed;inset:-15% -5% auto -5%;height:70vh;z-index:-1;background:radial-gradient(600px 260px at 20% 20%, rgba(107,92,255,.25), transparent 60%),radial-gradient(520px 240px at 80% 10%, rgba(34,211,238,.22), transparent 60%);filter:blur(32px);animation:float 11s ease-in-out infinite alternate}
+@keyframes float{to{transform:translateY(-16px)}}
+@media (max-width:720px){.wrap{padding:12px 14px}.hero{padding:28px 14px}h1{font-size:30px;line-height:1.15}.lead{font-size:16px}.drawer{width:88vw}.burger{width:36px; height:34px}}
+
+/* --- Chat Widget Styles --- */
+.chat-widget { display: flex; flex-direction: column; height: 500px; border: 1px solid var(--border); border-radius: 12px; overflow: hidden; background-color: var(--bg); }
+.chat-header { padding: 12px; background-color: var(--card); border-bottom: 1px solid var(--border); font-weight: bold; color: var(--brand); }
+.chat-messages { flex-grow: 1; padding: 12px; overflow-y: auto; display: flex; flex-direction: column; gap: 10px; }
+.chat-bubble { max-width: 80%; padding: 10px 14px; border-radius: 18px; line-height: 1.4; }
+.chat-bubble.user { background-color: var(--brand); color: white; align-self: flex-end; border-bottom-right-radius: 4px; }
+.chat-bubble.bot { background-color: var(--card); border: 1px solid var(--border); align-self: flex-start; border-bottom-left-radius: 4px; }
+.chat-input-area { display: flex; padding: 12px; border-top: 1px solid var(--border); background-color: var(--card); }
+.chat-input-area input { flex-grow: 1; border: 1px solid var(--border); background: var(--bg); color: var(--text); padding: 10px; border-radius: 8px; font-size: 14px; }
+.chat-input-area input:focus { outline: none; border-color: var(--brand); }
+.chat-input-area button { margin-left: 10px; border: none; background: var(--brand); color: white; padding: 10px 14px; border-radius: 8px; cursor: pointer; font-size: 14px; }
+.chat-input-area button:hover { opacity: 0.9; }
+
+/* --- Config Form Styles --- */
+.config-form label { font-weight: bold; color: var(--muted); font-size: 14px; display: block; }
+.config-form input, .config-form textarea { width: 100%; padding: 10px; background-color: var(--bg); border: 1px solid var(--border); border-radius: 8px; color: var(--text); margin-top: 6px; margin-bottom: 16px; font-size: 15px; }
+.config-form input:focus, .config-form textarea:focus { outline: none; border-color: var(--brand); }
+.config-form input[type="color"] { padding: 2px; height: 40px; }
+</style>
+
+<script src="/static/nc-app.js"></script>
+</head>
+<body>
+<div class="bgfx"></div>
+
+<!-- Drawer -->
+<div class="drawer-backdrop" id="bd"></div>
+<aside class="drawer" id="dw">
+  <a class="brand" href="/"><img src="/static/favicon.svg?v=4" alt="Nova Concierge"><strong>Nova Concierge</strong></a>
+  <div class="links">
+    <a href="/">🏠 Pagrindinis</a>
+    <a href="/pricing-details.html">💳 Kainų aprašymas</a>
+    <a href="/privacy.html">🔒 Privatumas</a>
+    <a href="/policy.html">📜 Taisyklės</a>
+    <a href="#custom-bots">🤖 Custom botai</a>
+    <a href="/affiliate.html">🤝 Afilija (Workspace)</a>
+    <a href="/company.html">🏢 Įmonės registracija</a>
+    <a href="/auth.html">🔐 Prisijungti</a>
+  </div>
+</aside>
+
+<!-- Header -->
+<header>
+  <div class="wrap">
+    <button class="burger" id="b"><i></i></button>
+    <a class="brand" href="/"><img src="/static/favicon.svg?v=4" alt="Nova Concierge"><strong>Nova Concierge</strong></a>
+    <div id="header-actions"></div>
+  </div>
+</header>
+
+<!-- Demo Section -->
+<section class="hero">
+  <div>
+    <h1>🤖 Išbandykite AI Asistentą</h1>
+    <p class="lead">Konfigūruokite asistento parametrus kairėje ir iškart matykite, kaip jis atrodys ir veiks jūsų svetainėje.</p>
+  </div>
+</section>
+
+<section class="custom" style="padding-top: 0;">
+  <div style="display: grid; grid-template-columns: 1fr 1.2fr; gap: 16px;">
+
+    <!-- Left Column: Config Form -->
+    <div class="card">
+        <h3>Konfigūracija</h3>
+        <form id="config-form" class="config-form" style="margin-top: 10px;">
+            <label for="bot-name">Asistento Pavadinimas</label>
+            <input type="text" id="bot-name" value="Nova Asistentas">
+
+            <label for="welcome-message">Pasisveikinimo Žinutė</label>
+            <textarea id="welcome-message" rows="3">Sveiki! Aš esu jūsų virtualus asistentas. Kuo galiu padėti?</textarea>
+
+            <label for="accent-color">Akcento Spalva</label>
+            <input type="color" id="accent-color" value="#6b5cff">
+        </form>
+    </div>
+
+    <!-- Right Column: Chatbot Preview -->
+    <div class="card" style="padding: 0;">
+        <div class="chat-widget">
+            <div class="chat-header" id="chat-header">Nova Asistentas</div>
+            <div class="chat-messages" id="chat-messages">
+                <div class="chat-bubble bot" id="welcome-bubble">Sveiki! Aš esu jūsų virtualus asistentas. Kuo galiu padėti?</div>
+            </div>
+            <div class="chat-input-area">
+                <input type="text" id="chat-input" placeholder="Įveskite žinutę...">
+                <button id="send-btn">Siųsti</button>
+            </div>
+        </div>
+    </div>
+
+  </div>
+</section>
+
+
+<!-- Footer -->
+<footer>
+  <div class="wrap" style="display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap">
+    <div>© <span id="y"></span> Nova Concierge · WhatsApp: +370 681 95678 · <a href="mailto:zoe.lirel@gmail.com">zoe.lirel@gmail.com</a></div>
+    <div><a href="/privacy.html">Privatumas</a> · <a href="/policy.html">Taisyklės</a></div>
+  </div>
+</footer>
+
+<script>
+// This script needs to be present for the drawer menu to work
+if (typeof NC === 'undefined') { var NC = {}; }
+NC.ncRenderHeaderActions = () => {}; // Define a dummy function if it's not present
+
+document.getElementById('y').textContent=new Date().getFullYear();
+const b=document.getElementById('b'), bd=document.getElementById('bd'), dw=document.getElementById('dw');
+function close(){dw.classList.remove('open');bd.classList.remove('show');b.classList.remove('active');}
+b.onclick=()=>{dw.classList.toggle('open');bd.classList.toggle('show');b.classList.toggle('active');};
+bd.onclick=close; addEventListener('keydown',e=>{if(e.key==='Escape') close();});
+document.querySelectorAll('a[href^="#"]').forEach(a=>a.addEventListener('click',e=>{
+  const id=a.getAttribute('href'); if(id.startsWith('#')){ e.preventDefault(); close(); document.querySelector(id)?.scrollIntoView({behavior:'smooth'}); }
+}));
+</script>
+<script src="/static/assistant_controller.js"></script>
+</body>
+</html>
